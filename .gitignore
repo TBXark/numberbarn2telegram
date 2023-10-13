@@ -170,5 +170,4 @@ dist
 
 .dev.vars
 
-build
 wrangler.toml

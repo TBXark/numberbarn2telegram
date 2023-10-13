@@ -1,5 +1,3 @@
-import { load } from "cheerio";
-
 /**
  * Converts a ReadableStream to an ArrayBuffer.
  *
@@ -34,6 +32,7 @@ async function streamToArrayBuffer(stream, streamSize) {
  *   Returns null if the email does not contain the required information.
  */
 async function readEmail(raw) {
+    const { load } = await import("cheerio");
     const PostalMime = require("postal-mime");
     const parser = new PostalMime.default();
     const parsedEmail = await parser.parse(raw);
