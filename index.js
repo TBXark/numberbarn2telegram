@@ -88,13 +88,12 @@ async function emailHandler(message, env, ctx) {
     const raw = await streamToArrayBuffer(message.raw, message.rawSize);
     const res = await readEmail(raw);
     const text = `
-From    : ${res.from}
-To      : ${res.to}
-Date    : ${res.date}
+${res.message}
 
 -----------
-
-${res.message}
+From\t\t:\t${res.from}
+To\t\t\t:\t${res.to}
+Date\t\t:\t${res.date}
 `;
     await sendMessageToTelegram(id, token, text);
 }
