@@ -65,29 +65,30 @@ async function sendMessageToTelegram(id, token, message) {
         },
         body: JSON.stringify({
             chat_id: id,
-            text: message
+            text: message,
         })
     })
     const res = await req.json()
     return res
 }
 
-export default {
-    async fetch(req, env, ctx) {
-        return new Response('It works!');
-    },
-    async email(message, env, ctx) {
-        const { TELEGRAM_ID: id, TELEGRAM_TOKEN: token, EMAIL_WHITELIST: whitelist } = env
-        const whitelistArray = whitelist?.split(',') || []
-        if (whitelistArray.length === 0) {
-            whitelistArray.push('voicemail@numberbarn.com')
-        }
-        if (!whitelistArray.includes(message.from)) {
-            return
-        }
-        const raw = await streamToArrayBuffer(message.raw, message.rawSize)
-        const res = await readEmail(raw)
-        const text = `
+
+async function fetchHandler(req, env, ctx) {
+    return new Response('It works!');
+}
+
+async function emailHandler(message, env, ctx) {
+    const { TELEGRAM_ID: id, TELEGRAM_TOKEN: token, EMAIL_WHITELIST: whitelist } = env
+    const whitelistArray = whitelist?.split(',') || []
+    if (whitelistArray.length === 0) {
+        whitelistArray.push('voicemail@numberbarn.com')
+    }
+    if (!whitelistArray.includes(message.from)) {
+        return
+    }
+    const raw = await streamToArrayBuffer(message.raw, message.rawSize)
+    const res = await readEmail(raw)
+    const text = `
 From    : ${res.from}
 To      : ${res.to}
 Date    : ${res.date}
@@ -95,9 +96,12 @@ Date    : ${res.date}
 -----------
 
 ${res.message}
+`
+    await sendMessageToTelegram(id, token, text)
+}
 
-        `
-        await sendMessageToTelegram(id, token, text)
-    }
+export default {
+    fetch: fetchHandler,
+    email: emailHandler
 }
 
