@@ -41,11 +41,10 @@ async function readEmail(raw) {
     const html = parsedEmail.html
     const $ = load(html)
     const table = $('table')
-    const fixStyle = (str) => str.replace('=\n', '')
-    const from = fixStyle(table.find('tr').eq(0).find('td').eq(1).text())
-    const to = fixStyle(table.find('tr').eq(1).find('td').eq(1).text())
-    const date = fixStyle(table.find('tr').eq(2).find('td').eq(1).text())
-    const message = fixStyle(table.find('tr').eq(3).find('td').eq(1).text())
+    const from = table.find('tr').eq(0).find('td').eq(1).text()
+    const to = table.find('tr').eq(1).find('td').eq(1).text()
+    const date = table.find('tr').eq(2).find('td').eq(1).text()
+    const message = table.find('tr').eq(3).find('td').eq(1).text()
     return { from, to, date, message }
 }
 
