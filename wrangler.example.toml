@@ -1,0 +1,8 @@
+name = "numberbarn2telegram"
+main = "build/index.js"
+compatibility_date = "2023-10-13"
+
+[vars]
+
+TELEGRAM_ID = ""
+TELEGRAM_TOKEN = ":"
