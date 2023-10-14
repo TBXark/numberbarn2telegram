@@ -76,6 +76,7 @@ async function emailHandler(message, env, ctx) {
         TELEGRAM_ID: id,
         TELEGRAM_TOKEN: token,
         EMAIL_WHITELIST: whitelist,
+        BACKUP_EMAIL: forward,
     } = env;
     const whitelistArray = whitelist?.split(",") || [];
     if (whitelistArray.length === 0) {
@@ -95,7 +96,11 @@ To\t\t\t:\t${res.to}
 Date\t\t:\t${res.date}
 `;
     await sendMessageToTelegram(id, token, text);
+    if (forward) {
+        await message.forward(forward);
+    }
 }
+
 
 export default {
     fetch: fetchHandler,

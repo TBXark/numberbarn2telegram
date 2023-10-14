@@ -12,6 +12,18 @@
 
 但是numberbarn的网站和APP都太复古了，实在是不想用。连邮件也是丑丑的不想打开。这个号码基本只是收验证码，没有发短信或者接打电话的需求。所以我可以跟简单的借助Cloudflare推出的[`Email Routing`](https://developers.cloudflare.com/email-routing/), 就可以对邮件进行读取之后转发到telegram里了。
 
+### 配置
+
+|  KEY    |  描述   |
+| ---- | ---- |
+| TELEGRAM_ID |   你的Telegram ID   |
+|   TELEGRAM_TOKEN   | Telegram Bot Token |
+| EMAIL_WHITELIST  |   numberbarn 邮件白名单默认留空则使用`voicemail@numberbarn.com` ，以后要是有变动可以不修改代码直接修改环境变量，可以填入多个使用`,`分隔。   |
+| BACKUP_EMAIL | 备份邮件，可以转发到自己的邮箱备份, 留空则不转发 |
+
+
+
+
 ### 部署
 
 ```shell
