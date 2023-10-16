@@ -34,7 +34,7 @@ git clone git@github.com:TBXark/numberbarn2telegram.git
 # 复制配置模板，修改成自己的telegram配置
 cp wrangler.example.toml wrangler.toml 
 
-# 部署👇
+# 部署
 yarn & yarn pub
 
 # 完成Telegram绑定

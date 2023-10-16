@@ -80,9 +80,7 @@ async function sendMessageToTelegram(id, token, message) {
  */
 async function loadBlocks(env) {
   const {DATABASE} = env;
-  const list = await DATABASE.get('blocks').then((r) => JSON.parse(r)).catch((e) => {
-    return [];
-  });
+  const list = await DATABASE.get('blocks').then((r) => JSON.parse(r)).catch((e) => []);
   if (!list) {
     return [];
   }
@@ -250,6 +248,7 @@ async function emailHandler(message, env, ctx) {
     BACKUP_EMAIL: forward,
     BLOCK_NOTIFY: blockNotify,
   } = env;
+
   const whitelistArray = whitelist?.split(',') || [];
   if (whitelistArray.length === 0) {
     whitelistArray.push('voicemail@numberbarn.com');
@@ -257,6 +256,7 @@ async function emailHandler(message, env, ctx) {
   if (!whitelistArray.includes(message.from)) {
     return;
   }
+
   const raw = await streamToArrayBuffer(message.raw, message.rawSize);
   const res = await readEmail(raw);
   const text = `
