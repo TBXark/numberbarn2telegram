@@ -13,6 +13,7 @@
 | EMAIL_WHITELIST  |   numberbarn 邮件白名单默认留空则使用`voicemail@numberbarn.com` ，以后要是有变动可以不修改代码直接修改环境变量，可以填入多个使用`,`分隔。   |
 | BACKUP_EMAIL | 备份邮件，可以转发到自己的邮箱备份, 留空则不转发 |
 | BLOCK_NOTIFY | 屏蔽号码的范围, 默认值为空只屏蔽Telegram, 可选项: `all`,`telegram`,`mail` |
+| DATABASE | 绑定 `KV Namespace Bindings` 数据库到worker, 名字必须为`DATABASE` |
 
 
 
