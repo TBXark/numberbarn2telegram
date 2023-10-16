@@ -248,6 +248,7 @@ async function emailHandler(message, env, ctx) {
     TELEGRAM_TOKEN: token,
     EMAIL_WHITELIST: whitelist,
     BACKUP_EMAIL: forward,
+    BLOCK_NOTIFY: blockNotify,
   } = env;
   const whitelistArray = whitelist?.split(',') || [];
   if (whitelistArray.length === 0) {
@@ -258,12 +259,6 @@ async function emailHandler(message, env, ctx) {
   }
   const raw = await streamToArrayBuffer(message.raw, message.rawSize);
   const res = await readEmail(raw);
-
-  const blocks = await loadBlocks(env);
-  if (blocks.includes(res.from)) {
-    return;
-  }
-
   const text = `
 ${res.message}
 
@@ -272,8 +267,18 @@ From\t\t:\t${res.from}
 To\t\t\t:\t${res.to}
 Date\t\t:\t${res.date}
 `;
-  await sendMessageToTelegram(id, token, text);
-  if (forward) {
+
+  const blocks = await loadBlocks(env);
+  const isBlocked = blocks.includes(res.from);
+
+  // 屏蔽号码的范围, 默认值为空只屏蔽Telegram, 可选项: `all`,`telegram`,`mail`
+  const isBlockTelegram = isBlocked && ['', 'all', 'telegram'].includes(blockNotify);
+  const isBlockMail = isBlocked && ['all', 'mail'].includes(blockNotify);
+
+  if (!isBlockTelegram) {
+    await sendMessageToTelegram(id, token, text);
+  }
+  if (forward && !isBlockMail) {
     await message.forward(forward);
   }
 }
