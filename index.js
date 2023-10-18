@@ -265,7 +265,6 @@ ${res.message}
 -----------
 From\t\t:\t${res.from}
 To\t\t\t:\t${res.to}
-Date\t\t:\t${res.date}
 `;
 
   const blocks = await loadBlocks(env);
