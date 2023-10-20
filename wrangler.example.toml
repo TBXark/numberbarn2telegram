@@ -1,6 +1,10 @@
 name = "numberbarn2telegram"
-main = "build/index.js"
+main = "index.js"
 compatibility_date = "2023-10-13"
+
+kv_namespaces = [
+  { binding = "DATABASE", id = "your_database_id" }
+]
 
 [vars]
 
