@@ -268,11 +268,12 @@ To\t\t\t:\t${res.to}
 `;
 
   const blocks = await loadBlocks(env);
-  const isBlocked = blocks.includes(res.from);
+  const isBlocked = blocks.includes(parseInt(res.from));
 
   // 屏蔽号码的范围, 默认值为空只屏蔽Telegram, 可选项: `all`,`telegram`,`mail`
-  const isBlockTelegram = isBlocked && ['', 'all', 'telegram'].includes(blockNotify);
-  const isBlockMail = isBlocked && ['all', 'mail'].includes(blockNotify);
+  const blockRange = (blockNotify || 'telegram').toLowerCase().trim();
+  const isBlockTelegram = isBlocked && ['all', 'telegram'].includes(blockRange);
+  const isBlockMail = isBlocked && ['all', 'mail'].includes(blockRange);
 
   if (!isBlockTelegram) {
     await sendMessageToTelegram(id, token, text);
