@@ -100,11 +100,11 @@ async function loadBlocks(env) {
  */
 async function telegramHandler(req, env, ctx) {
   const body = await req.json();
-  const {TELEGRAM_TOKEN: token, DATABASE} = env;
+  const {TELEGRAM_TOKEN: token, TELEGRAM_ID: id, DATABASE} = env;
   const text = body?.message?.text;
   const target = body?.message?.chat?.id;
 
-  if (!text || !target) {
+  if (!text || !target || `${target}` !== id) {
     return new Response('OK', {status: 200});
   }
 
